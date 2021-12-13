@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_restful import Api
 from resources.gl_event_resource import GLEventResource
@@ -14,4 +15,5 @@ api.add_resource(HelloWorld, '/')
 api.add_resource(GLEventResource, '/event', resource_class_kwargs={'search_service': search_service})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    debug = True if os.environ['PROD'] == 'TRUE' else False
+    app.run(debug=debug)
