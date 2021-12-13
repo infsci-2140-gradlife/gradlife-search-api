@@ -17,7 +17,9 @@ class SearchService:
         with self._index.searcher() as searcher:
             query_parser = QueryParser('doc_content', schema=self._index.schema)
             print('parsed query', query_parser.parse(query.text))
-            results = searcher.search_page(query_parser.parse(query.text), query.page_num, pagelen=query.page_size)
+            
+            # note that the page number is 0-indexed
+            results = searcher.search_page(query_parser.parse(query.text), query.page_num + 1, pagelen=query.page_size)
             return {
                 'resultCount': results.total,
                 'pageCount': results.pagecount,
