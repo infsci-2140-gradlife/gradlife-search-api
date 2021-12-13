@@ -1,7 +1,8 @@
 class GLQuery:
-    def constructor(self):
+    def __init__(self, **kwargs):
         self._page_num = 1
         self._page_size = 20
+        self._text = kwargs['text']
         
     @property
     def text(self):
@@ -25,4 +26,4 @@ class GLQuery:
 
     @property
     def page_size(self):
-        return self.page_size
+        return self._page_size
