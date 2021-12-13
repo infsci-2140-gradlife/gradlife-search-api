@@ -15,5 +15,6 @@ api.add_resource(HelloWorld, '/')
 api.add_resource(GLEventResource, '/event', resource_class_kwargs={'search_service': search_service})
 
 if __name__ == '__main__':
+    print('OS environ prod', os.environ['PROD'])
     debug = True if os.environ['PROD'] == 'TRUE' else False
-    app.run(debug=debug)
+    app.run(debug=debug, port=os.environ['PORT'] or 5000)
