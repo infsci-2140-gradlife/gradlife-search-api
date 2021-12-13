@@ -1,7 +1,7 @@
 class GLQuery:
     def __init__(self, **kwargs):
-        self._page_num = 1
-        self._page_size = 20
+        self._page_num = 1 if 'page_num' not in kwargs else kwargs ['page_num']
+        self._page_size = 20 if 'page_size' not in kwargs else kwargs['page_size']
         self._text = kwargs['text']
         
     @property

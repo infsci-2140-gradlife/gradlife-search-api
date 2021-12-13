@@ -16,11 +16,13 @@ class GLEventResource(Resource):
 
     def post(self) -> list[GLEvent]:
         parser = RequestParser()
-        parser.add_argument('query', type=str, help='The text of the search query')
-        parser.add_argument('startDate', type=datetime, help='The start date for events to be returned by the query', required=False)
-        parser.add_argument('endDate', type=datetime, help='The end date for events to be returned by the query', required=False)
-        parser.add_argument('location', type=str, help='The location for events to be returned by the query', required=False)
+        parser.add_argument('query', type=str, help='The text of the search query', required=True)
+        parser.add_argument('startDate', type=datetime, help='The start date for events to be returned by the query')
+        parser.add_argument('endDate', type=datetime, help='The end date for events to be returned by the query')
+        parser.add_argument('location', type=str, help='The location for events to be returned by the query')
+        parser.add_argument('pageNum', type=int)
+        parser.add_argument('pageSize', type=int)
         args = parser.parse_args()
-        query = GLQuery(text=args.query)
+        query = GLQuery(text=args.query, page_num=args.pageNum, page_size=args.pageSize)
 
         return jsonify(self._search_service.search(query))
