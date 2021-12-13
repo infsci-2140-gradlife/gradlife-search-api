@@ -8,8 +8,9 @@ class SearchService:
         index_path = os.path.join('..', 'data', 'index')
 
         if os.environ['PROD'] == 'TRUE':
+            print('loading index for prod', os.getcwd())
             index_path = os.path.join('data', 'index')
-            
+
         self._index = index.open_dir(index_path)
  
     def search(self, query: GLQuery):
