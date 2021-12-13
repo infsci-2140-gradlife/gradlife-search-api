@@ -5,11 +5,11 @@ from whoosh.qparser import QueryParser
 
 class SearchService:
     def __init__(self):
-        index_path = os.path.join('..', 'data', 'index')
+        index_path = os.path.join(os.getcwd(), 'data', 'index')
 
         if os.environ['PROD'] == 'TRUE':
             print('loading index for prod', os.getcwd())
-            index_path = os.path.join('data', 'index')
+            index_path = os.path.join('..', 'data', 'index')
 
         self._index = index.open_dir(index_path)
  
