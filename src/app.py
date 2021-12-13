@@ -1,11 +1,13 @@
 import os
 from flask import Flask
+from flask_cors import CORS
 from flask_restful import Api
 from resources.gl_event_resource import GLEventResource
 from resources.hello_world import HelloWorld
 from services.search_service import SearchService
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 api = Api(app)
 
 # services

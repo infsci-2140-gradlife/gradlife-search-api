@@ -7,8 +7,8 @@ class SearchService:
     def __init__(self):
         index_path = os.path.join(os.getcwd(), 'data', 'index')
 
-        if os.environ['PROD'] == 'TRUE':
-            print('loading index for prod', os.getcwd())
+        # hacky stuff because i don't have time to figure out how real environment vars and dotenv interact
+        if 'PROD' in os.environ and os.environ['PROD'] == 'TRUE':
             index_path = os.path.join('..', 'data', 'index')
 
         self._index = index.open_dir(index_path)
