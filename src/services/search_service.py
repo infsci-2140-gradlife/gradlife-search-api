@@ -12,6 +12,10 @@ class SearchService:
             index_path = os.path.join('..', 'data', 'index')
 
         self._index = index.open_dir(index_path)
+    
+    def get_lexicon(self, field_name: str) -> list[str]:
+        with self._index.searcher() as searcher:
+            return searcher.lexicon('location')
  
     def search(self, query: GLQuery):
         with self._index.searcher() as searcher:
