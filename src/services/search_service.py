@@ -1,7 +1,8 @@
 import os
 from models.gl_query import GLQuery
-from whoosh import index
+from whoosh import index, query
 from whoosh.qparser import QueryParser
+from whoosh.query import Query
 
 class SearchService:
     def __init__(self):
@@ -17,15 +18,19 @@ class SearchService:
         with self._index.searcher() as searcher:
             return searcher.lexicon('location')
  
-    def search(self, query: GLQuery):
+    def search(self, gl_query: GLQuery):
         with self._index.searcher() as searcher:
+            # text query
             query_parser = QueryParser('doc_content', schema=self._index.schema)
-            print('query text', query.text)
-            parsed_query = query_parser.parse(query.text)
-            print('parsed query', parsed_query)
+            parsed_query:Query = query_parser.parse(gl_query.text)
+
+            # date query
+            date_query: Query = None
+            if gl_query.start_date is not None or gl_query.end_date is not None:
+                date_query = query.DateRange('date', gl_query.start_date, gl_query.end_date)
 
             # note that the page number is 0-indexed
-            results = searcher.search_page(parsed_query, query.page_num + 1, pagelen=query.page_size)
+            results = searcher.search_page(parsed_query, pagenum=gl_query.page_num + 1, pagelen=gl_query.page_size, filter=date_query)
             
             return {
                 'resultCount': results.total,

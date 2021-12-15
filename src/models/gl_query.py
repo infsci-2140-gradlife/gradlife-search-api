@@ -4,8 +4,8 @@ class GLQuery:
         self._page_size = 20 if 'page_size' not in kwargs else kwargs['page_size']
         self._text = kwargs['text']
         self._location = kwargs['location']
-        self._startDate = kwargs['startDate']
-        self._endDate = kwargs['endDate']
+        self._start_date = kwargs['startDate']
+        self._end_date = kwargs['endDate']
         
     @property
     def text(self):
