@@ -9,6 +9,7 @@ flask-restful = "*"
 whoosh = "*"
 gunicorn = "*"
 flask-cors = "*"
+dateparser = "*"
 
 [dev-packages]
 

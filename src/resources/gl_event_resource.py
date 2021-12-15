@@ -1,5 +1,5 @@
 from datetime import datetime
-import json
+import dateparser
 from flask import jsonify, request
 from flask_restful import Resource
 from flask_restful.reqparse import RequestParser
@@ -28,10 +28,10 @@ class GLEventResource(Resource):
         query = GLQuery(
             page_num=0 if 'pageNum' not in args else args['pageNum'], 
             page_size=10 if 'pageSize' not in args else args['pageSize'],
-            text=args['query']['text'], 
+            text=None if 'text' not in args['query'] else args['query']['text'],
             location=None if 'location' not in args['query'] else args['query']['location'],
-            startDate=None if 'location' not in args['query'] else args['query']['startDate'],
-            endDate=None if 'endDate' not in args['query'] else args['query']['endDate']
+            startDate=None if 'startDate' not in args['query'] else dateparser.parse(args['query']['startDate']),
+            endDate=None if 'endDate' not in args['query'] else dateparser.parse(args['query']['endDate'])
         )
 
         return jsonify(self._search_service.search(query))
