@@ -36,5 +36,5 @@ class SearchService:
                 'resultCount': results.total,
                 'pageCount': results.pagecount,
                 'pageSize': results.pagelen,
-                'results': [dict(hit) for hit in results.results]
+                'results': [dict(hit) for hit in results.results[results.offset:]]
             }
