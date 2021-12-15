@@ -16,7 +16,8 @@ class SearchService:
     
     def get_lexicon(self, field_name: str) -> list[str]:
         with self._index.searcher() as searcher:
-            return searcher.lexicon('location')
+            print('hi')
+            return [term.decode('utf-8') for term in searcher.lexicon(field_name)]
  
     def search(self, gl_query: GLQuery):
         with self._index.searcher() as searcher:
@@ -30,7 +31,11 @@ class SearchService:
                 date_query = query.DateRange('date', gl_query.start_date, gl_query.end_date)
 
             # note that the page number is 0-indexed
-            results = searcher.search_page(parsed_query, pagenum=gl_query.page_num + 1, pagelen=gl_query.page_size, filter=date_query)
+            results = searcher.search_page(
+                parsed_query, 
+                pagenum=gl_query.page_num + 1, 
+                pagelen=gl_query.page_size, 
+                filter=date_query)
             
             return {
                 'resultCount': results.total,

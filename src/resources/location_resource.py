@@ -7,4 +7,4 @@ class LocationResource(Resource):
         self._search_service = search_service
 
     def get(self):
-        return self._search_service.get_lexicon('location')
+        return self._search_service.get_lexicon('doc_location')
