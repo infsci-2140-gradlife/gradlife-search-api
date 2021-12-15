@@ -16,7 +16,6 @@ class SearchService:
     
     def get_lexicon(self, field_name: str) -> list[str]:
         with self._index.searcher() as searcher:
-            print('hi')
             return [term.decode('utf-8') for term in searcher.lexicon(field_name)]
  
     def search(self, gl_query: GLQuery):
@@ -31,19 +30,12 @@ class SearchService:
             date_query: Query = None
             if gl_query.start_date is not None or gl_query.end_date is not None:
                 date_query = query.DateRange('date', gl_query.start_date, gl_query.end_date)
-                results = searcher.search(date_query)
             
             # location query
             location_query: Query = None
             if gl_query.location is not None:
                 location_qp = QueryParser('doc_location', schema=self._index.schema)
                 location_query = location_qp.parse(gl_query.location)
-                location_results = searcher.search(location_query)
-
-                if results is not None:
-                    results.extend(searcher.search(location_query))
-                else:
-                    results = location_results
 
             filter = None
             if date_query and location_query:
